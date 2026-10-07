@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>L'Invitation Privée · 专属浪漫约会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #f9f6f0;
+      --card-bg: rgba(255, 255, 255, 0.88);
+      --card-border: rgba(212, 180, 140, 0.35);
+      --text-primary: #23201e;
+      --text-secondary: #706862;
+      --text-muted: #9e958d;
+      --gold-primary: #c5a059;
+      --gold-deep: #9d7837;
+      --gold-light: #eeddbb;
+      --rose-accent: #c47c8d;
+      --rose-soft: #fcf1f3;
+      --rose-border: #e8b4c0;
+      --shadow-luxury: 0 20px 45px -12px rgba(44, 34, 25, 0.08), 0 8px 16px -6px rgba(44, 34, 25, 0.04);
+      --font-serif: "Cormorant Garamond", "Songti SC", "Source Han Serif CN", "STSong", "SimSun", serif;
+      --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-canvas);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(238, 221, 187, 0.35) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(247, 218, 224, 0.4) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.6) 0px, transparent 60%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-primary);
+      padding: 24px 16px;
+      overflow-x: hidden;
+      letter-spacing: 0.02em;
+    }
+
+    /* Luxury Container */
+    .app-container {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 28px;
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-luxury);
+      overflow: hidden;
+      position: relative;
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Ornamental Top Corner Marks */
+    .app-container::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 14px;
+      height: 14px;
+      border-top: 1px solid var(--gold-primary);
+      border-left: 1px solid var(--gold-primary);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .app-container::after {
+      content: "";
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 14px;
+      height: 14px;
+      border-top: 1px solid var(--gold-primary);
+      border-right: 1px solid var(--gold-primary);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    /* Pages Management */
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 38px 26px;
+      width: 100%;
+      min-height: 560px;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .page.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* High-End Typography */
+    .eyebrow {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-size: 27px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      line-height: 1.35;
+      letter-spacing: 0.04em;
+    }
+
+    p.subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 26px;
+      line-height: 1.6;
+      font-weight: 400;
+      max-width: 320px;
+    }
+
+    /* Buttons */
+    .btn {
+      appearance: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 13px 26px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.06em;
+      transition: all 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Premium Velvet Black / Champagne Primary Button */
+    .btn-luxury-dark {
+      background: #23201e;
+      color: #faf6f0;
+      box-shadow: 0 6px 20px rgba(35, 32, 30, 0.16);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+    }
+
+    .btn-luxury-dark:hover {
+      background: #171514;
+      border-color: var(--gold-primary);
+      box-shadow: 0 8px 24px rgba(35, 32, 30, 0.24);
+      color: #ffffff;
+    }
+
+    /* Subtle Ivory Secondary Button */
+    .btn-luxury-light {
+      background: #ffffff;
+      color: #574e46;
+      border: 1px solid rgba(212, 180, 140, 0.5);
+      box-shadow: 0 4px 12px rgba(44, 34, 25, 0.04);
+    }
+
+    .btn-luxury-light:hover {
+      background: #faf6f0;
+      color: #23201e;
+      border-color: var(--gold-primary);
+    }
+
+    /* Yellow / Champagne Gold Save Button */
+    .btn-yellow {
+      background: linear-gradient(135deg, #dfba73 0%, #c5a059 50%, #a8813b 100%);
+      color: #2a1f0a;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(197, 160, 89, 0.32);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      width: 100%;
+      padding: 15px 24px;
+      font-size: 16px;
+      letter-spacing: 0.08em;
+    }
+
+    .btn-yellow:hover {
+      background: linear-gradient(135deg, #eed08d 0%, #d4ae67 50%, #b88f47 100%);
+      box-shadow: 0 8px 26px rgba(197, 160, 89, 0.45);
+    }
+
+    /* PAGE 1: 邀请首页与按钮躲避 */
+    .emblem-wrapper {
+      width: 76px;
+      height: 76px;
+      margin-bottom: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid rgba(212, 180, 140, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(197, 160, 89, 0.15);
+      position: relative;
+    }
+
+    .emblem-wrapper svg {
+      width: 38px;
+      height: 38px;
+      fill: none;
+      stroke: var(--gold-deep);
+      stroke-width: 1.6;
+    }
+
+    .btn-area {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      margin-top: 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(212, 180, 140, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .btn-yes {
+      min-width: 120px;
+      padding: 13px 26px;
+    }
+
+    .btn-no {
+      min-width: 120px;
+      padding: 13px 26px;
+      font-size: 14px;
+    }
+
+    /* PAGE 2: 害羞确认页 */
+    .shy-badge {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid rgba(212, 180, 140, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 24px rgba(44, 34, 25, 0.06);
+      animation: gentleFloat 3s infinite ease-in-out;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .quote-card {
+      background: #ffffff;
+      border: 1px solid rgba(212, 180, 140, 0.3);
+      border-radius: 20px;
+      padding: 22px 24px;
+      margin-bottom: 28px;
+      width: 100%;
+      box-shadow: 0 6px 20px rgba(44, 34, 25, 0.04);
+      position: relative;
+    }
+
+    .quote-card p {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      letter-spacing: 0.03em;
+    }
+
+    /* PAGE 3: 日期与时间选择 */
+    .form-card {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid rgba(212, 180, 140, 0.35);
+      border-radius: 22px;
+      padding: 24px 22px;
+      box-shadow: 0 6px 20px rgba(44, 34, 25, 0.04);
+      margin-bottom: 26px;
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-serif);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--bg-canvas);
+      border: 1px solid rgba(212, 180, 140, 0.4);
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-size: 15px;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .form-input:focus {
+      background: #ffffff;
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+    }
+
+    /* PAGE 4: 3列网格美食品类 */
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 11px;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .food-item {
+      background: #ffffff;
+      border: 1px solid rgba(212, 180, 140, 0.25);
+      border-radius: 16px;
+      padding: 16px 6px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: 0 2px 8px rgba(44, 34, 25, 0.02);
+    }
+
+    .food-item:hover {
+      border-color: var(--gold-primary);
+      transform: translateY(-2px);
+    }
+
+    .food-item .emoji {
+      font-size: 30px;
+      margin-bottom: 8px;
+      transition: transform 0.25s ease;
+    }
+
+    .food-item .name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+
+    .food-item .en-name {
+      font-family: var(--font-serif);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Food Selected State: Turns Pink + Checkmark */
+    .food-item.selected {
+      background: var(--rose-soft);
+      border-color: var(--rose-border);
+      box-shadow: 0 6px 20px rgba(196, 124, 141, 0.18);
+      transform: scale(1.02);
+    }
+
+    .food-item.selected .name {
+      color: #9c4b5e;
+      font-weight: 600;
+    }
+
+    .food-item.selected .en-name {
+      color: #b56c7d;
+    }
+
+    .food-item.selected .emoji {
+      transform: scale(1.1);
+    }
+
+    .food-item .check-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 19px;
+      height: 19px;
+      background: var(--rose-accent);
+      color: #ffffff;
+      border-radius: 50%;
+      font-size: 10px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(196, 124, 141, 0.35);
+      animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .food-item.selected .check-badge {
+      display: flex;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* PAGE 5: 约会摘要与 Canvas 海报生成 */
+    .heart-svg-wrapper {
+      width: 82px;
+      height: 82px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .summary-card {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid rgba(212, 180, 140, 0.35);
+      border-radius: 20px;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 20px rgba(44, 34, 25, 0.04);
+      text-align: left;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(212, 180, 140, 0.18);
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .summary-label {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .summary-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .summary-value.menu-highlight {
+      color: #9c4b5e;
+      background: var(--rose-soft);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      border: 1px solid rgba(232, 180, 192, 0.5);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(40px);
+      background: #23201e;
+      color: #faf6f0;
+      border: 1px solid var(--gold-primary);
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 9999;
+      pointer-events: none;
+      letter-spacing: 0.03em;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- PAGE 1: 邀请首页与按钮躲避 -->
+    <div id="page-1" class="page active">
+      <div class="emblem-wrapper">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+
+      <div class="eyebrow">R.S.V.P. · EXCLUSIVE INVITATION</div>
+      <h2>可以和我一起约会吗？</h2>
+      <p class="subtitle">想将生活里的温柔与琐碎，都与你一同分享</p>
+      
+      <div id="btn-area" class="btn-area">
+        <button id="btn-yes" class="btn btn-luxury-dark btn-yes">愿意 ✦</button>
+        <button id="btn-no" class="btn btn-luxury-light btn-no">不要</button>
+      </div>
+    </div>
+
+    <!-- PAGE 2: 害羞确认页 -->
+    <div id="page-2" class="page">
+      <div class="shy-badge">🙈</div>
+      <div class="eyebrow">HEARTFELT RESPONSE</div>
+      <h2>太棒啦！我就知道你会答应的～</h2>
+      <p class="subtitle">既然彼此默契达成，接下来请把时间留给我吧</p>
+
+      <div class="quote-card">
+        <p>「 人间烟火气，最抚凡人心。<br>而这一程风景，唯愿有你相伴。」</p>
+      </div>
+
+      <button id="btn-step2-next" class="btn btn-luxury-dark" style="width: 100%; padding: 14px 20px;">
+        继续定制约会 ⟶
+      </button>
+    </div>
+
+    <!-- PAGE 3: 日期与时间选择 -->
+    <div id="page-3" class="page">
+      <div class="eyebrow">SCHEDULE · 时间安排</div>
+      <h2>挑选约会时间</h2>
+      <p class="subtitle">择一个闲暇舒适的时刻，开启专属心动之旅</p>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label for="date-input">
+            <span>🗓️</span> 约定日期 (DATE)
+          </label>
+          <input type="date" id="date-input" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label for="time-input">
+            <span>⏰</span> 约定时间 (TIME)
+          </label>
+          <input type="time" id="time-input" class="form-input">
+        </div>
+      </div>
+
+      <button id="btn-step3-next" class="btn btn-luxury-dark" style="width: 100%; padding: 14px 20px;">
+        确认时间，挑选风味 ⟶
+      </button>
+    </div>
+
+    <!-- PAGE 4: 9种美食品类网格 -->
+    <div id="page-4" class="page">
+      <div class="eyebrow">CUISINE · 寻味体验</div>
+      <h2>挑选心仪餐饮</h2>
+      <p class="subtitle">无论市井温热还是烛光微醺，只要是和你</p>
+
+      <div class="food-grid" id="food-grid">
+        <div class="food-item" data-name="浓郁火锅" data-emoji="🍲">
+          <span class="emoji">🍲</span>
+          <span class="name">浓郁火锅</span>
+          <span class="en-name">Hot Pot</span>
+          <span class="check-badge">✓</span>
+        </div>
+        <div class="food-item" data-name="炙烤烤肉" data-emoji="🥩">
+          <span class="emoji">🥩</span>
+          <span class="name">炙烤烤肉</span>
+          <span class="en-name">BBQ Grill</span>
+          <span class="check-badge">✓</span>
+        </div>
+        <div class="food-item" data-name="精致日料" data-emoji="🍣">
+          <span class="emoji">🍣</span>
+          <span class="name">精致日料</span>
+          <span class="en-name">Japanese</span>
+          <span class="check-badge">✓</span>
+        </div>
+        <div class="food-item" data-name="浪漫西餐" data-emoji="🍷">
+          <span class="emoji">🍷</span>
+          <span class="name">浪漫西餐</span>
+          <span class="en-name">Bistro</span>
+          <span class="check-badge">✓</span>
+        </div>
+        <div class="food-item" data-name="甜品午茶" data-emoji="🍰">
+          <span class="emoji">🍰</span>
+          <span class="name">甜品午茶</span>
+          <span class="en-name">Afternoon</span>
+          <span class="check-badge">✓</span>
+        </div>
+        <div class="food-item" data-name="披萨意面" data-emoji="🍕">
+          <span class="emoji">🍕</span>
+          <span class="name">披萨意面</span>
+          <span class="en-name">Italian</span>
+          <span class="check-badge">✓</span>
+        </div>
+        <div class="food-item" data-name="粤式点心" data-emoji="🥟">
+          <span class="emoji">🥟</span>
+          <span class="name">粤式点心</span>
+          <span class="en-name">Dim Sum</span>
+          <span class="check-badge">✓</span>
+        </div>
+        <div class="food-item" data-name="鲜香烧烤" data-emoji="🦞">
+          <span class="emoji">🦞</span>
+          <span class="name">鲜香烧烤</span>
+          <span class="en-name">Seafood</span>
+          <span class="check-badge">✓</span>
+        </div>
+        <div class="food-item" data-name="地道川湘" data-emoji="🌶️">
+          <span class="emoji">🌶️</span>
+          <span class="name">地道川湘</span>
+          <span class="en-name">Gourmet</span>
+          <span class="check-badge">✓</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 5: 约会摘要与 Canvas 海报生成 -->
+    <div id="page-5" class="page">
+      <div class="heart-svg-wrapper">
+        <svg viewBox="0 0 100 100" width="76" height="76">
+          <defs>
+            <linearGradient id="goldHeartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#dfba73" />
+              <stop offset="50%" stop-color="#c5a059" />
+              <stop offset="100%" stop-color="#9d7837" />
+            </linearGradient>
+            <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#c5a059" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <path d="M50,86 C50,86 16,60 16,35 C16,21 27,11 40,11 C46,11 50,15 50,15 C50,15 54,11 60,11 C73,11 84,21 84,35 C84,60 50,86 50,86 Z" 
+                fill="url(#goldHeartGrad)" filter="url(#softGlow)" />
+        </svg>
+      </div>
+
+      <div class="eyebrow">OFFICIAL CONFIRMATION</div>
+      <h2>约会达成 · 专属约定</h2>
+      <p class="subtitle">约定凭证已备好，保存海报发给我吧 ✦</p>
+
+      <div class="summary-card">
+        <div class="summary-row">
+          <span class="summary-label"><span>🗓️</span> DATE</span>
+          <span id="summary-date" class="summary-value">2026-10-08</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label"><span>⏰</span> TIME</span>
+          <span id="summary-time" class="summary-value">17:00</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label"><span>🍽️</span> MENU</span>
+          <span id="summary-menu" class="summary-value menu-highlight">🍲 浓郁火锅</span>
+        </div>
+      </div>
+
+      <button id="btn-save-poster" class="btn btn-yellow">
+        ✦ 保存 / 分享约会邀请函
+      </button>
+    </div>
+
+  </div>
+
+  <div id="toast" class="toast">海报已保存！</div>
+
+  <script>
+    // State Store
+    const state = {
+      currentPage: 1,
+      isSplit: false,
+      noClickCount: 0,
+      currentCorner: -1,
+      lastCorner: -1,
+      date: '',
+      time: '17:00',
+      food: { name: '浓郁火锅', emoji: '🍲' }
+    };
+
+    const noTexts = ["不要", "再想想嘛", "点不到我", "真的不要吗"];
+    const diagonalMap = { 0: 2, 1: 3, 2: 0, 3: 1 };
+
+    // DOM Elements
+    const btnArea = document.getElementById('btn-area');
+    const btnYes = document.getElementById('btn-yes');
+    const btnNo = document.getElementById('btn-no');
+    const dateInput = document.getElementById('date-input');
+    const timeInput = document.getElementById('time-input');
+    const foodItems = document.querySelectorAll('.food-item');
+    const toast = document.getElementById('toast');
+
+    // Setup Date defaults (Tomorrow, min Today)
+    function setupDateDefaults() {
+      const now = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+      
+      const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      const tomorrowStr = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth() + 1)}-${pad(tomorrow.getDate())}`;
+
+      dateInput.min = todayStr;
+      dateInput.value = tomorrowStr;
+      timeInput.value = "17:00";
+
+      state.date = tomorrowStr;
+      state.time = "17:00";
+    }
+
+    setupDateDefaults();
+
+    dateInput.addEventListener('change', (e) => {
+      if (e.target.value && e.target.value < dateInput.min) {
+        e.target.value = dateInput.min;
+        showToast('日期不得早于今天哦～');
+      }
+      state.date = e.target.value;
+    });
+
+    timeInput.addEventListener('change', (e) => {
+      state.time = e.target.value;
+    });
+
+    // Page Switching with smooth transition
+    function goToPage(pageNumber) {
+      const currentEl = document.getElementById(`page-${state.currentPage}`);
+      const nextEl = document.getElementById(`page-${pageNumber}`);
+
+      if (!nextEl) return;
+
+      currentEl.classList.remove('active');
+      setTimeout(() => {
+        state.currentPage = pageNumber;
+        nextEl.classList.add('active');
+
+        if (pageNumber === 5) {
+          updateSummaryView();
+        }
+      }, 250);
+    }
+
+    // Page 1: "不要" Runaway & "愿意" Smooth Center Logic
+    function getNextCornerIndex(current, last) {
+      if (current === -1) {
+        return 1; // Top-Right corner first
+      }
+      let diag = diagonalMap[current];
+      // If diagonal wasn't just visited, prioritize diagonal!
+      if (diag !== last) {
+        return diag;
+      }
+      // If diagonal was just visited, rotate to adjacent corner
+      return (current + 1) % 4;
+    }
+
+    function calculateCornerPos(cornerIndex) {
+      const areaW = btnArea.clientWidth;
+      const areaH = btnArea.clientHeight;
+      const noW = btnNo.offsetWidth;
+      const noH = btnNo.offsetHeight;
+      const pad = 10;
+
+      let left = pad;
+      let top = pad;
+
+      switch(cornerIndex) {
+        case 0: // Top-Left
+          left = pad;
+          top = pad;
+          break;
+        case 1: // Top-Right
+          left = Math.max(pad, areaW - noW - pad);
+          top = pad;
+          break;
+        case 2: // Bottom-Right
+          left = Math.max(pad, areaW - noW - pad);
+          top = Math.max(pad, areaH - noH - pad);
+          break;
+        case 3: // Bottom-Left
+          left = pad;
+          top = Math.max(pad, areaH - noH - pad);
+          break;
+      }
+
+      return { left, top };
+    }
+
+    function handleNoClick(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      state.noClickCount++;
+
+      if (!state.isSplit) {
+        // --- FIRST CLICK: Switch to absolute with ZERO layout jump ---
+        const areaRect = btnArea.getBoundingClientRect();
+        const yesRect = btnYes.getBoundingClientRect();
+        const noRect = btnNo.getBoundingClientRect();
+
+        const yesInitLeft = yesRect.left - areaRect.left;
+        const yesInitTop = yesRect.top - areaRect.top;
+        const noInitLeft = noRect.left - areaRect.left;
+        const noInitTop = noRect.top - areaRect.top;
+
+        // Freeze in absolute position at identical visual coordinates
+        btnYes.style.position = 'absolute';
+        btnYes.style.left = `${yesInitLeft}px`;
+        btnYes.style.top = `${yesInitTop}px`;
+        btnYes.style.transform = 'none';
+        btnYes.style.margin = '0';
+
+        btnNo.style.position = 'absolute';
+        btnNo.style.left = `${noInitLeft}px`;
+        btnNo.style.top = `${noInitTop}px`;
+        btnNo.style.transform = 'none';
+        btnNo.style.margin = '0';
+
+        // Force browser layout reflow
+        void btnArea.offsetHeight;
+
+        // Apply smooth transition: 360ms
+        btnYes.style.transition = 'all 360ms cubic-bezier(0.25, 0.8, 0.25, 1)';
+        btnNo.style.transition = 'all 360ms cubic-bezier(0.25, 0.8, 0.25, 1)';
+
+        void btnYes.offsetWidth;
+        void btnNo.offsetWidth;
+
+        // Move "愿意" to true center: left: 50%, top: 50%, translate(-50%, -50%)
+        btnYes.style.left = '50%';
+        btnYes.style.top = '50%';
+        btnYes.style.transform = 'translate(-50%, -50%)';
+        btnYes.style.zIndex = '999';
+
+        state.isSplit = true;
+      }
+
+      // Cycle text: "不要", "再想想嘛", "点不到我", "真的不要吗"
+      btnNo.textContent = noTexts[state.noClickCount % noTexts.length];
+
+      // Force reflow for accurate button size with new text
+      void btnNo.offsetWidth;
+
+      // Pick next corner (prioritizing diagonals, different from current)
+      const nextCorner = getNextCornerIndex(state.currentCorner, state.lastCorner);
+      state.lastCorner = state.currentCorner;
+      state.currentCorner = nextCorner;
+
+      const { left, top } = calculateCornerPos(state.currentCorner);
+      btnNo.style.left = `${left}px`;
+      btnNo.style.top = `${top}px`;
+      btnNo.style.zIndex = '50';
+    }
+
+    // ONLY click / touch triggers, strictly NO hover
+    btnNo.addEventListener('click', handleNoClick);
+
+    // Window resize event to recalculate boundaries without layout shifts
+    window.addEventListener('resize', () => {
+      if (state.isSplit && state.currentCorner !== -1) {
+        btnNo.style.transition = 'none';
+        const { left, top } = calculateCornerPos(state.currentCorner);
+        btnNo.style.left = `${left}px`;
+        btnNo.style.top = `${top}px`;
+        setTimeout(() => {
+          btnNo.style.transition = 'all 360ms cubic-bezier(0.25, 0.8, 0.25, 1)';
+        }, 50);
+      }
+    });
+
+    // "愿意" Button Click -> Go to Page 2
+    btnYes.addEventListener('click', () => {
+      goToPage(2);
+    });
+
+    // Page 2 Continue
+    document.getElementById('btn-step2-next').addEventListener('click', () => {
+      goToPage(3);
+    });
+
+    // Page 3 Continue
+    document.getElementById('btn-step3-next').addEventListener('click', () => {
+      if (!state.date) {
+        showToast('请选择约定日期哦～');
+        return;
+      }
+      goToPage(4);
+    });
+
+    // Page 4 Food Grid Selection
+    foodItems.forEach(item => {
+      item.addEventListener('click', () => {
+        // Clear other selections
+        foodItems.forEach(f => f.classList.remove('selected'));
+        // Select this
+        item.classList.add('selected');
+        state.food = {
+          name: item.getAttribute('data-name'),
+          emoji: item.getAttribute('data-emoji')
+        };
+
+        // Smooth pause to admire selection, then advance to Page 5
+        setTimeout(() => {
+          goToPage(5);
+        }, 360);
+      });
+    });
+
+    // Page 5 Summary Update
+    function updateSummaryView() {
+      document.getElementById('summary-date').textContent = state.date;
+      document.getElementById('summary-time').textContent = state.time;
+      document.getElementById('summary-menu').textContent = `${state.food.emoji} ${state.food.name}`;
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // High-End Canvas 1080x1440 Poster Generation & System Share / Download
+    async function generateAndExportPoster() {
+      const btn = document.getElementById('btn-save-poster');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '✦ 正在生成典雅海报...';
+      btn.disabled = true;
+
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1080;
+        canvas.height = 1440;
+        const ctx = canvas.getContext('2d');
+
+        // 1. Background: Fine Warm Cream / Alabaster Linen Gradient
+        const bgGrad = ctx.createLinearGradient(0, 0, 1080, 1440);
+        bgGrad.addColorStop(0, '#FAF7F2');
+        bgGrad.addColorStop(0.4, '#F7F2EA');
+        bgGrad.addColorStop(0.85, '#F3ECE0');
+        bgGrad.addColorStop(1, '#EFE6D5');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, 1080, 1440);
+
+        // 2. Subtle Radial Light Effect
+        const radialLight = ctx.createRadialGradient(540, 500, 50, 540, 500, 700);
+        radialLight.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
+        radialLight.addColorStop(0.6, 'rgba(255, 255, 255, 0.2)');
+        radialLight.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = radialLight;
+        ctx.fillRect(0, 0, 1080, 1440);
+
+        // 3. Classical Double Gold Frame with Corner Geometry
+        ctx.strokeStyle = 'rgba(197, 160, 89, 0.55)';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(48, 48, 984, 1344);
+
+        ctx.strokeStyle = 'rgba(197, 160, 89, 0.25)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(62, 62, 956, 1316);
+
+        // Classical Corner Brackets & Diamonds
+        drawCornerDiamond(ctx, 48, 48);
+        drawCornerDiamond(ctx, 1032, 48);
+        drawCornerDiamond(ctx, 48, 1392);
+        drawCornerDiamond(ctx, 1032, 1392);
+
+        // 4. Header Eyebrow & Brandmark
+        ctx.save();
+        ctx.fillStyle = '#9D7837';
+        ctx.font = '600 20px "Montserrat", -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.letterSpacing = '0.3em';
+        ctx.fillText('L \' I N V I T A T I O N   P R I V É E', 540, 140);
+
+        // Thin decorative gold line
+        ctx.strokeStyle = 'rgba(197, 160, 89, 0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(380, 165);
+        ctx.lineTo(700, 165);
+        ctx.stroke();
+
+        ctx.fillStyle = '#C5A059';
+        ctx.beginPath();
+        ctx.arc(540, 165, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // 5. Main Title & Editorial Subtitle
+        ctx.save();
+        ctx.fillStyle = '#23201E';
+        ctx.font = 'bold 56px "Songti SC", "Source Han Serif CN", "STSong", "Cormorant Garamond", serif';
+        ctx.textAlign = 'center';
+        ctx.letterSpacing = '0.12em';
+        ctx.fillText('约 会 甜 蜜 约 定', 540, 245);
+
+        ctx.fillStyle = '#706862';
+        ctx.font = 'italic 26px "Cormorant Garamond", "Songti SC", serif';
+        ctx.fillText('「 于万千光景中，与你共赴一场温柔之约 」', 540, 305);
+        ctx.restore();
+
+        // 6. Centerpiece: Classical Sculptural Gold Heart
+        drawLuxuryHeart(ctx, 540, 445, 140);
+
+        // 7. Core Summary Card (Matte Ivory Board)
+        ctx.save();
+        const cardX = 110;
+        const cardY = 575;
+        const cardW = 860;
+        const cardH = 460;
+
+        // Card Drop Shadow
+        ctx.shadowColor = 'rgba(44, 34, 25, 0.08)';
+        ctx.shadowBlur = 40;
+        ctx.shadowOffsetY = 16;
+
+        ctx.fillStyle = '#FFFFFF';
+        roundRect(ctx, cardX, cardY, cardW, cardH, 30);
+        ctx.fill();
+
+        ctx.shadowColor = 'transparent';
+        ctx.strokeStyle = 'rgba(212, 180, 140, 0.45)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Inner Corner Flairs for the Card
+        ctx.strokeStyle = 'rgba(197, 160, 89, 0.4)';
+        ctx.lineWidth = 1;
+        drawInnerCornerMarks(ctx, cardX + 16, cardY + 16, cardW - 32, cardH - 32);
+
+        // Metadata Rows
+        const rows = [
+          { label: 'DATE · 约 定 日 期', val: state.date },
+          { label: 'TIME · 约 定 时 间', val: state.time },
+          { label: 'MENU · 寻 味 美 食', val: `${state.food.emoji} ${state.food.name}` }
+        ];
+
+        rows.forEach((row, idx) => {
+          const itemY = cardY + 75 + idx * 125;
+
+          // Label
+          ctx.fillStyle = '#9E958D';
+          ctx.font = '600 22px "Montserrat", "Songti SC", sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText(row.label, cardX + 55, itemY);
+
+          // Value
+          ctx.fillStyle = idx === 2 ? '#9C4B5E' : '#23201E';
+          ctx.font = idx === 2 ? 'bold 36px "Songti SC", "Source Han Serif CN", -apple-system, sans-serif' : 'bold 38px "Montserrat", -apple-system, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.fillText(row.val, cardX + cardW - 55, itemY + 3);
+
+          // Divider
+          if (idx < 2) {
+            ctx.strokeStyle = 'rgba(212, 180, 140, 0.2)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(cardX + 55, itemY + 45);
+            ctx.lineTo(cardX + cardW - 55, itemY + 45);
+            ctx.stroke();
+          }
+        });
+        ctx.restore();
+
+        // 8. Romantic Vow / Fine Print Box
+        ctx.save();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+        roundRect(ctx, 160, 1075, 760, 150, 20);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(197, 160, 89, 0.35)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.fillStyle = '#6E5528';
+        ctx.font = '600 21px "Songti SC", "Montserrat", serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('✦ 约 会 契 约 · 心 动 准 则 ✦', 540, 1120);
+
+        ctx.fillStyle = '#7A6B5C';
+        ctx.font = '19px "Songti SC", "PingFang SC", serif';
+        ctx.fillText('① 准时赴约，享受当下的每刻欢愉  ② 烦恼归零，沉浸专属风味', 540, 1165);
+        ctx.fillText('③ 契约即刻生效，愿所有的美好皆如期而至', 540, 1200);
+        ctx.restore();
+
+        // 9. Classical Gold Wax Seal Stamp
+        drawLuxurySeal(ctx, 875, 1205, 70);
+
+        // 10. Footer Footnote
+        ctx.save();
+        ctx.fillStyle = '#A3998F';
+        ctx.font = '500 18px "Montserrat", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.letterSpacing = '0.15em';
+        ctx.fillText('EXCLUSIVE DATE PASSPORT · SEALED WITH LOVE', 540, 1340);
+        ctx.restore();
+
+        // Convert to Blob for Share / Download
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            showToast('生成海报失败，请稍后重试');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+          }
+
+          const file = new File([blob], '约会专属邀请函.png', { type: 'image/png' });
+          let shared = false;
+
+          // Attempt Web Share API
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                title: '约会专属邀请函',
+                text: '这是属于我们的浪漫约定，请准时赴约哦 ✦',
+                files: [file]
+              });
+              shared = true;
+              showToast('海报已成功分享！');
+            } catch (err) {
+              console.log('Share dismissed or failed, downloading instead:', err);
+            }
+          }
+
+          // Fallback to Download if not shared
+          if (!shared) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '约会专属邀请函.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+            showToast('海报已成功保存到相册/下载！');
+          }
+
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }, 'image/png', 0.98);
+
+      } catch (err) {
+        console.error(err);
+        showToast('生成出错，请刷新重试');
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    // Canvas Helpers
+    function roundRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+
+    function drawCornerDiamond(ctx, x, y) {
+      ctx.save();
+      ctx.fillStyle = '#C5A059';
+      ctx.beginPath();
+      ctx.moveTo(x, y - 6);
+      ctx.lineTo(x + 6, y);
+      ctx.lineTo(x, y + 6);
+      ctx.lineTo(x - 6, y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawInnerCornerMarks(ctx, x, y, w, h) {
+      const len = 12;
+      // TL
+      ctx.beginPath(); ctx.moveTo(x + len, y); ctx.lineTo(x, y); ctx.lineTo(x, y + len); ctx.stroke();
+      // TR
+      ctx.beginPath(); ctx.moveTo(x + w - len, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y + len); ctx.stroke();
+      // BL
+      ctx.beginPath(); ctx.moveTo(x + len, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + h - len); ctx.stroke();
+      // BR
+      ctx.beginPath(); ctx.moveTo(x + w - len, y + h); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w, y + h - len); ctx.stroke();
+    }
+
+    function drawLuxuryHeart(ctx, cx, cy, size) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      const s = size / 100;
+
+      // Subtle shadow
+      ctx.shadowColor = 'rgba(197, 160, 89, 0.28)';
+      ctx.shadowBlur = 30;
+      ctx.shadowOffsetY = 10;
+
+      // Champagne Gold gradient
+      const grad = ctx.createLinearGradient(-40 * s, -50 * s, 40 * s, 50 * s);
+      grad.addColorStop(0, '#EED08D');
+      grad.addColorStop(0.45, '#C5A059');
+      grad.addColorStop(1, '#9D7837');
+      ctx.fillStyle = grad;
+
+      ctx.beginPath();
+      ctx.moveTo(0, 35 * s);
+      ctx.bezierCurveTo(0, 35 * s, -45 * s, 0, -45 * s, -28 * s);
+      ctx.bezierCurveTo(-45 * s, -48 * s, -20 * s, -58 * s, 0, -36 * s);
+      ctx.bezierCurveTo(20 * s, -58 * s, 45 * s, -48 * s, 45 * s, -28 * s);
+      ctx.bezierCurveTo(45 * s, 0, 0, 35 * s, 0, 35 * s);
+      ctx.fill();
+
+      // Delicate inner sheen
+      ctx.shadowColor = 'transparent';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawLuxurySeal(ctx, cx, cy, r) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(-0.15);
+
+      // Outer Ring
+      ctx.strokeStyle = '#C5A059';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Inner Beaded Ring
+      ctx.strokeStyle = 'rgba(197, 160, 89, 0.5)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(0, 0, r - 6, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = '#8C6C30';
+      ctx.font = '600 13px "Songti SC", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('✦ 约 定 达 成 ✦', 0, -20);
+
+      ctx.font = 'bold 22px "Cormorant Garamond", serif';
+      ctx.fillText('CONFIRMED', 0, 8);
+
+      ctx.font = '500 11px "Montserrat", sans-serif';
+      ctx.fillText('P R O M I S E', 0, 28);
+
+      ctx.restore();
+    }
+
+    document.getElementById('btn-save-poster').addEventListener('click', generateAndExportPoster);
+  </script>
+</body>
+</html>
